@@ -23,6 +23,9 @@ const userSchema=mongoose.Schema({
         type:String,
         required:true
     },
+    resetCode:{
+        type:Number
+    },
     createdat:{
         type:Date,
         default:()=>{

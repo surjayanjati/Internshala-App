@@ -1,5 +1,5 @@
 /// Requiring The Functions For Handeling The Controller Actions----->
-const { signUp } = require("../service/userService");
+const { signUp,otpSend } = require("../service/userService");
 
 /// Controller For Handeling Signup Request Of User---------->
 exports.postSignup = async (req, res) => {
@@ -23,3 +23,22 @@ exports.postSignup = async (req, res) => {
     }
   }
 };
+
+/// Controller For Sending The Otp to Email For Password Change-->
+exports.postOtpSend=async (req,res)=>{
+     try {
+     
+      const response=await otpSend(req,res);
+       if(response===true){
+        res.send({message:"OTP Has Been Sent To Your Email",success:true,status:200});
+       }else if(response===false){
+        res.send({msg:"The Email Doesn't Exists",success:false,status:401})
+       }
+     } catch (error) {
+      res.send({
+        message: "Internal Server Error",
+        status: 500,
+        success: false,
+      });
+     }
+}
