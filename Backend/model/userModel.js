@@ -1,6 +1,6 @@
 const mongoose=require("mongoose");
 const bcrypt=require("bcrypt");
-const secretKey=require("../config/secretKey");
+
 
 const userSchema=mongoose.Schema({
     username:{

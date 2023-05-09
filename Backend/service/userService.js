@@ -1,12 +1,16 @@
 /// Requiring The userModel From The Model Folder----------------------------->
 const userModel = require("../model/userModel");
 const nodemailer = require("nodemailer");
+/// Requiring The Pakages ---------------------------------------------------->
+const bcrypt=require("bcrypt");
+
 
 /// Exporting All The Function------------------------------------------------>
 module.exports = {
   signUp,
   otpSend,
-  otpCheck
+  otpCheck,
+  updatePassword
 };
 
 /// Function For The User's Signup/////
@@ -95,4 +99,30 @@ async function otpCheck(req,res){
    }else{
     throw new Error("Kindly Signup First")
    }
+};
+
+
+/// Function For Updating Password ------------->
+async function updatePassword(req,res){
+ 
+  const {useremail,password,confirmPassword}=req.body;
+
+  const userData=await userModel.findOne({useremail:useremail});
+
+  if(userData){
+   const newPassword=await bcrypt.hash(password,8);
+   if(newPassword){
+  const updatePassword=await userModel.updateOne({useremail:useremail,userpassword:newPassword});
+  if(updatePassword.acknowledged===true){
+    return true;
+  }else{
+    throw new Error ("Internal Server Error");
+  }
+   }else {
+    throw new Error ("Internal Server Error");
+   }
+    }else{
+     throw new Error("Kindly Signup First")
+    }
+
 }

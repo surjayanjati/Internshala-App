@@ -18,4 +18,8 @@ module.exports=(app)=>{
     // Route For Checking The Otp is Valid or Not//
     app.post("/internshalaapp/api/v1/users/checkotp",userController.checkOtp);
 
+    
+    // Route For Updating The Password//
+    app.put("/internshalaapp/api/v1/users/updatepassword",userController.passwordUpdate);
+
 }

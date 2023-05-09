@@ -1,5 +1,6 @@
 /// Requiring The Functions For Handeling The Controller Actions----->
-const { signUp,otpSend,otpCheck } = require("../service/userService");
+const userModel = require("../model/userModel");
+const { signUp,otpSend,otpCheck,updatePassword } = require("../service/userService");
 
 /// Controller For Handeling Signup Request Of User---------->
 exports.postSignup = async (req, res) => {
@@ -57,4 +58,22 @@ exports.checkOtp=async(req,res)=>{
    } catch (error) {
     res.send({message:error.message,status:401,success:false});
    }
+}
+
+
+/// Controller For Updating The Password after Otp Verification is Done --------------------------->
+
+exports.passwordUpdate=async(req,res)=>{
+
+  try {
+    const response =await updatePassword(req,res);
+    if(response===true){ 
+   res.send({message:"Password Has Been Updated Successfully",status:200,success:true});
+    }else{
+      res.send({message:"Internal Server Error",status:500,success:false});
+    }
+  } catch (error) {
+    res.send({message:error.message,status:500,success:false});
+  }
+
 }
