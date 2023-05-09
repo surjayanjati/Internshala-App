@@ -6,6 +6,7 @@ const nodemailer = require("nodemailer");
 module.exports = {
   signUp,
   otpSend,
+  otpCheck
 };
 
 /// Function For The User's Signup/////
@@ -76,4 +77,22 @@ async function otpSend(req, res) {
  }
 
 
+}
+
+
+/// Function For Checking The Otp is Valid or Not
+
+async function otpCheck(req,res){
+   const {useremail,userOtp}=req.body;
+   const userData=await userModel.findOne({useremail:useremail});
+
+   if(userData){
+   if(userData.resetCode===userOtp){
+    return true;
+   }else{
+    throw new Error("The Otp Is Not Matching");
+   }
+   }else{
+    throw new Error("Kindly Signup First")
+   }
 }
