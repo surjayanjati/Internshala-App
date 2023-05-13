@@ -22,4 +22,8 @@ module.exports=(app)=>{
     // Route For Updating The Password//
     app.put("/internshalaapp/api/v1/users/updatepassword",userController.passwordUpdate);
 
+        
+    // Route For Updating The Password//
+    app.post("/internshalaapp/api/v1/users/login",userController.userLogin);
+
 }

@@ -1,6 +1,6 @@
 /// Requiring The Functions For Handeling The Controller Actions----->
 const userModel = require("../model/userModel");
-const { signUp,otpSend,otpCheck,updatePassword } = require("../service/userService");
+const { signUp,otpSend,otpCheck,updatePassword,login } = require("../service/userService");
 
 /// Controller For Handeling Signup Request Of User---------->
 exports.postSignup = async (req, res) => {
@@ -74,6 +74,24 @@ exports.passwordUpdate=async(req,res)=>{
     }
   } catch (error) {
     res.send({message:error.message,status:500,success:false});
+  }
+
+};
+
+
+/// Controller For The User So He/She can Login --------------------------------------------------->
+
+exports.userLogin=async (req,res)=>{
+
+  try {
+    const response=await login(req,res);
+    if(response.login===true){
+    res.send({message:"Login Successfull",status:200,success:true,data:response.userData,loginToken:response.token});
+    }else if(response.login===false){
+      res.send({message:"Incorrect Email or Password",status:401,success:false});
+    }
+  } catch (error) {
+    res.send({message:"Internal Server Error",status:500,success:false})
   }
 
 }

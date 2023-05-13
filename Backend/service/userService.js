@@ -3,6 +3,10 @@ const userModel = require("../model/userModel");
 const nodemailer = require("nodemailer");
 /// Requiring The Pakages ---------------------------------------------------->
 const bcrypt=require("bcrypt");
+const jwt=require("jsonwebtoken");
+/// Requiring The SecretKey ------------------------------>
+const SecretKey=require("../config/secretKey");
+
 
 
 /// Exporting All The Function------------------------------------------------>
@@ -10,7 +14,8 @@ module.exports = {
   signUp,
   otpSend,
   otpCheck,
-  updatePassword
+  updatePassword,
+  login
 };
 
 /// Function For The User's Signup/////
@@ -125,4 +130,39 @@ async function updatePassword(req,res){
      throw new Error("Kindly Signup First")
     }
 
-}
+};
+
+
+/// Function For The User To Login ----------------->
+
+async function login(req,res){
+  const {useremail,userpassword}=req.body;
+
+  const userData=await userModel.findOne({useremail:useremail});
+  if(userData){
+   const passwordCheck=await bcrypt.compare(userpassword,userData.userpassword);
+   if(passwordCheck===true){
+
+
+   
+
+    const token =jwt.sign({id:userData.id},SecretKey.key,{expiresIn:"1w"});
+   
+   if(token){
+    return {login:true,userData:userData,token:token};
+   }else{
+    return {login:false};
+   }
+
+   
+   }else {
+    return {login:false};
+   }
+   
+  }else{
+    return {login:false};
+  }
+};
+
+
+
