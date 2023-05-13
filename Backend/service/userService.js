@@ -3,10 +3,8 @@ const userModel = require("../model/userModel");
 const nodemailer = require("nodemailer");
 /// Requiring The Pakages ---------------------------------------------------->
 const bcrypt=require("bcrypt");
-const jwt=require("jsonwebtoken");
-/// Requiring The SecretKey ------------------------------>
-const SecretKey=require("../config/secretKey");
-
+/// Requiring The Helper Functions From userHelper---------------------------->
+const userHelper=require("../helpers/userHelper");
 
 
 /// Exporting All The Function------------------------------------------------>
@@ -144,12 +142,8 @@ async function login(req,res){
    const passwordCheck=await bcrypt.compare(userpassword,userData.userpassword);
    if(passwordCheck===true){
 
-
-   
-
-    const token =jwt.sign({id:userData.id},SecretKey.key,{expiresIn:"1w"});
-   
-   if(token){
+  const token=userHelper.generateToken(userData.id);
+    if(token){
     return {login:true,userData:userData,token:token};
    }else{
     return {login:false};
