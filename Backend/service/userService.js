@@ -15,7 +15,8 @@ module.exports = {
   otpSend,
   otpCheck,
   updatePassword,
-  login
+  login,
+  deleteUser
 };
 
 /// Function For The User's Signup/////
@@ -165,4 +166,12 @@ async function login(req,res){
 };
 
 
-
+/// Function For Deleting The User -------------->
+async function deleteUser(userId){
+  const deleteData=await userModel.deleteOne({_id:userId});
+  if(deleteData.acknowledged===true){
+    return {message:"Your Account Has Been Deleted",status:200,success:true};
+  }else {
+    throw new Error("Unable To Delete The User");
+  }
+}

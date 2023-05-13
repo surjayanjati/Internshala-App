@@ -1,4 +1,4 @@
-const { signUp,otpSend,otpCheck,updatePassword,login } = require("../service/userService");
+const { signUp,otpSend,otpCheck,updatePassword,login,deleteUser } = require("../service/userService");
 
 /// Controller For Handeling Signup Request Of User---------->
 exports.postSignup = async (req, res) => {
@@ -99,9 +99,11 @@ exports.userLogin=async (req,res)=>{
 
 exports.userDelete=async (req,res)=>{
   try {
-   console.log(req.userDetails);
-   res.send({message:"Your Profile Has Been DELETED",stauts:200,success:false});
+   const {id,username}=req.userDetails;
+   const deleteResponse=await deleteUser(id);
+   res.send(deleteResponse);
+   
   } catch (error) {
-    res.send({message:"Internal Server Error",status:500,success:false});
+    res.send({message:error.message,status:500,success:false});
   }
 }
