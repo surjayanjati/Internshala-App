@@ -1,5 +1,3 @@
-/// Requiring The Functions For Handeling The Controller Actions----->
-const userModel = require("../model/userModel");
 const { signUp,otpSend,otpCheck,updatePassword,login } = require("../service/userService");
 
 /// Controller For Handeling Signup Request Of User---------->
@@ -94,4 +92,16 @@ exports.userLogin=async (req,res)=>{
     res.send({message:"Internal Server Error",status:500,success:false})
   }
 
+};
+
+
+/// Controller For The Logged in User so that they can delete their account------------------------->
+
+exports.userDelete=async (req,res)=>{
+  try {
+   console.log(req.userDetails);
+   res.send({message:"Your Profile Has Been DELETED",stauts:200,success:false});
+  } catch (error) {
+    res.send({message:"Internal Server Error",status:500,success:false});
+  }
 }

@@ -1,6 +1,7 @@
 /// Requiring The user Controller --------------------->
 const userController=require("../controller/userController");
-
+/// Requiring The Middleware -------------------------->
+const userAuthCheck=require("../middleware/userAuthCheck");
 
 
 
@@ -20,10 +21,13 @@ module.exports=(app)=>{
 
     
     // Route For Updating The Password//
-    app.put("/internshalaapp/api/v1/users/updatepassword",userController.passwordUpdate);
+    app.put("/internshalaapp/api/v1/users/updatepassword", userController.passwordUpdate);
 
         
-    // Route For Updating The Password//
+    // Route For User To Login//
     app.post("/internshalaapp/api/v1/users/login",userController.userLogin);
+
+    // Route For Deleting The User ///
+    app.delete("/internshalaapp/api/v1/users",userAuthCheck.idCheck,userAuthCheck.userCheck, userController.userDelete)
 
 }
