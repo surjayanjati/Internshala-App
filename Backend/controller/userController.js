@@ -1,4 +1,4 @@
-const { signUp,otpSend,otpCheck,updatePassword,login,deleteUser } = require("../service/userService");
+const { signUp,otpSend,otpCheck,updatePassword,login,deleteUser,getUserDetails } = require("../service/userService");
 
 /// Controller For Handeling Signup Request Of User---------->
 exports.postSignup = async (req, res) => {
@@ -105,5 +105,17 @@ exports.userDelete=async (req,res)=>{
    
   } catch (error) {
     res.send({message:error.message,status:500,success:false});
+  }
+};
+
+
+/// Controller For Getting The Details of User ----------------------------------------------------->
+exports.getUser=async (req,res)=>{
+  try {
+
+    const getResponse=await getUserDetails(req);
+    res.send({message:"User Data Has Been Found",status:200,success:true,userData:getResponse});
+  } catch (error) {
+    res.send({message:error.message,status:500,success:false})
   }
 }

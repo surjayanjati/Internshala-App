@@ -14,7 +14,8 @@ module.exports = {
   otpCheck,
   updatePassword,
   login,
-  deleteUser
+  deleteUser,
+  getUserDetails
 };
 
 /// Function For The User's Signup/////
@@ -168,4 +169,15 @@ async function deleteUser(userId){
   }else {
     throw new Error("Unable To Delete The User");
   }
+};
+
+
+/// Function For The Handeling The Get Call of The User------------>
+async function getUserDetails(req){
+   const findUser=await userModel.findOne({_id:req.params.id});
+ if(findUser){
+  return findUser;
+ }else{
+  throw new Error("Signup First");
+ }
 }

@@ -30,4 +30,7 @@ module.exports=(app)=>{
     // Route For Deleting The User ///
     app.delete("/internshalaapp/api/v1/users",userAuthCheck.idCheck,userAuthCheck.userCheck, userController.userDelete)
 
+    // Route For getting The User ///
+    app.get("/internshalaapp/api/v1/users/:id",userAuthCheck.idCheck,userAuthCheck.userCheck, userController.getUser)
+
 }
