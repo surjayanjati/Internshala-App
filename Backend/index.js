@@ -8,6 +8,7 @@ app.use(express.json());
 
 // Plugging The Routes----------------------->
 require("./routes/userRoute")(app);
+require("./routes/adminRoute")(app);
 
 app.listen(7890,()=>{
     console.log("Server Started at Port Number 7890");
