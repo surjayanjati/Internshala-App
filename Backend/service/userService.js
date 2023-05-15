@@ -3,8 +3,8 @@ const userModel = require("../model/userModel");
 const nodemailer = require("nodemailer");
 /// Requiring The Pakages ---------------------------------------------------->
 const bcrypt=require("bcrypt");
-/// Requiring The Helper Functions From userHelper---------------------------->
-const userHelper=require("../helpers/userHelper");
+/// Requiring The Utilitis --------------------------------------------------->
+const utilitis=require("../utils/utilitis");
 
 
 /// Exporting All The Function------------------------------------------------>
@@ -140,20 +140,14 @@ async function login(req,res){
 
   const userData=await userModel.findOne({useremail:useremail});
   if(userData){
-   const passwordCheck=await bcrypt.compare(userpassword,userData.userpassword);
-   if(passwordCheck===true){
+    const passwordCheckResponse=await utilitis.checkPassword({givenPassword:userpassword,dataBasePassword:userData.userpassword});
+    const tokenResponse=utilitis.generateToken(userData.id);
 
-  const token=userHelper.generateToken(userData.id);
-    if(token){
-    return {login:true,userData:userData,token:token};
-   }else{
-    return {login:false};
+   if(tokenResponse){
+  return ({userData:userData,token:tokenResponse});
    }
 
-   
-   }else {
-    return {login:false};
-   }
+ 
    
   }else{
     return {login:false};

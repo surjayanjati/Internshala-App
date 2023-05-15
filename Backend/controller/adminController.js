@@ -1,4 +1,4 @@
-const {superAdminCreation}=require("../service/adminService");
+const {superAdminCreation,superAdminLoginService}=require("../service/adminService");
 
 
 
@@ -23,4 +23,29 @@ exports.postSuperAdminCreation=async (req,res)=>{
             });
           }
     }
+};
+
+/// Controller For Handeling The Login Request of Super Admin ---------------------------------->
+
+exports.superAdminLogin=async(req,res)=>{
+  try {
+    const response =await superAdminLoginService(req);
+ 
+    res.send({message:"Login Successfull",status:200,success:true,superAdminData:response.superAdminData,token:response.token});
+  } catch (error) {
+    res.send({message:error.message,status:500,success:false})
+  }
+}
+
+/// Controller For Creating New Admin ---------------------------------------------------------->
+exports.adminCreation=async (req,res)=>{
+  try {
+    
+  } catch (error) {
+    res.send({
+      message:error.message,
+      status:500,
+      success:false
+    })
+  }
 }
